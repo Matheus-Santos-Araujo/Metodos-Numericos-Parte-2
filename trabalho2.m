@@ -115,18 +115,13 @@ x = 2;
 x0 = [23.0000; 7.0000; 30.0000; -50.0000; -12.0000];
 y0 = [2.0000; 24.0000; 72.0000; 9.0000; 57.0000];
 
-    % x0 - vector containing inputs (x values)
-    % y0 - vector containing outputs (results for these x values
-    % x - value you want to compute, for interpolation
-    % y - computed value
-
     n = size(x0, 1); 
     y = 0;
 
     for i=1:n
         p = 1;
         for j=1:n
-            if j == i   % avoiding fancy division by 0
+            if j == i  
                 continue;
             endif;
             p *= (x-x0(j)) / (x0(i)-x0(j));
