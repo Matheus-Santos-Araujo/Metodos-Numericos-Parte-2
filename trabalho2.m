@@ -78,11 +78,30 @@ elseif( opcao == 2 )
   A = load("S2Matriz.txt");
   b = load("S2Vetor.txt");
 
+function beta=sassenfeld(A)
+  [m n]=size(A);
+  beta=zeros(m,1);
+  for i=1:m
+   for j=1:i-1
+     beta(i)=beta(i)+abs(A(i,j))/abs(A(i,i))*beta(j);
+   endfor;
+   for j=i+1:n
+    beta(i)=beta(i)+abs(A(i,j))/abs(A(i,i));
+   endfor;
+  endfor;
+  endfunction
+
+
 %A = [6 0 -1 2 0; 0 8 -4 0 2; 0 2 -8 4 0; -2 0 0 -5 1; 0 1 0 9 14];
 %b = [ 265; 100; 234; -400; 721];
 Niter = 100;
 tol = 1e-4;
-
+  beta=sassenfeld(A);
+  if(max(beta)>1) 
+    fprintf("Nao vai convergir!\n");
+    break;
+  endif
+  disp(beta);
   n=length(A);
   D=diag(diag(A));
   L=D-tril(A);
@@ -115,13 +134,18 @@ x = 2;
 x0 = [23.0000; 7.0000; 30.0000; -50.0000; -12.0000];
 y0 = [2.0000; 24.0000; 72.0000; 9.0000; 57.0000];
 
+    % x0 - vector containing inputs (x values)
+    % y0 - vector containing outputs (results for these x values
+    % x - value you want to compute, for interpolation
+    % y - computed value
+
     n = size(x0, 1); 
     y = 0;
 
     for i=1:n
         p = 1;
         for j=1:n
-            if j == i  
+            if j == i   % avoiding fancy division by 0
                 continue;
             endif;
             p *= (x-x0(j)) / (x0(i)-x0(j));
