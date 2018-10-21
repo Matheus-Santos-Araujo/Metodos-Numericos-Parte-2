@@ -112,7 +112,7 @@ tol = 1e-4;
       % 
       x0 = x;
       y0 = x2;
-       xaux = mean(x0);
+       xaux = median(x0);
           % Grau n do polinomio
           n = size(x0, 1); 
           y = 0;
@@ -128,7 +128,7 @@ tol = 1e-4;
               y += y0(i) * p;   
           endfor;
           disp("--------Local da Cidade--------")
-          disp(mean(x0));
+          disp(median(x0));
           disp("--------Poluiçao--------")
           disp(y);
        % ---------------------------------------
