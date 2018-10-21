@@ -1,6 +1,15 @@
-  A = load('S1Matriz.txt');
-  b = load('S1Vetor.txt');
-
+  Aname = input(" Digite o nome do arquivo da matriz do S1: ");
+  bname = input(" Digite o nome do arquivo do vetor do S1: ");
+  
+  A2name = input(" Digite o nome do arquivo da matriz do S2: ");
+  b2name = input(" Digite o nome do arquivo do vetor do S2: ");
+  
+  A = load(Aname);
+  b = load(bname);
+  
+  A2 = load(A2name);
+  b2 = load(b2name);
+  
  %A = [6 0 -1 2 0; 0 8 -4 0 2; 0 2 -8 4 0; -2 0 0 -5 1; 0 1 0 9 14];
  %b = [ 265; 100; 234; -400; 721];
  %pega o tamanho
@@ -61,19 +70,17 @@
     disp("\nImpossivel Calcular o X");
   endif
 
+%------------ Gauss Seidel--------------
 
-  A = load("S2Matriz.txt");
-  b = load("S2Vetor.txt");
-
-function beta=sassenfeld(A)
-  [m n]=size(A);
+function beta=sassenfeld(A2)
+  [m n]=size(A2);
   beta=zeros(m,1);
   for i=1:m
    for j=1:i-1
-     beta(i)=beta(i)+abs(A(i,j))/abs(A(i,i))*beta(j);
+     beta(i)=beta(i)+abs(A2(i,j))/abs(A2(i,i))*beta(j);
    endfor;
    for j=i+1:n
-    beta(i)=beta(i)+abs(A(i,j))/abs(A(i,i));
+    beta(i)=beta(i)+abs(A2(i,j))/abs(A2(i,i));
    endfor;
   endfor;
   endfunction
@@ -83,15 +90,15 @@ function beta=sassenfeld(A)
 %b = [ 265; 100; 234; -400; 721];
 Niter = 100;
 tol = 1e-4;
-  beta=sassenfeld(A);
+  beta=sassenfeld(A2);
   if(max(beta)>1) 
     fprintf("Nao vai convergir!\n");
     break;
   endif
-  n=length(A);
-  D=diag(diag(A));
-  L=D-tril(A);
-  U=D-triu(A);
+  n=length(A2);
+  D=diag(diag(A2));
+  L=D-tril(A2);
+  U=D-triu(A2);
   invDL=inv(D-L);
   x2=zeros(n,1);
   xout=x2;
@@ -103,9 +110,9 @@ tol = 1e-4;
       disp("")
       % LAGRANGE --------------------------------
       % 
-      xaux = -2;
       x0 = x;
       y0 = x2;
+       xaux = mean(x0);
           % Grau n do polinomio
           n = size(x0, 1); 
           y = 0;
@@ -121,7 +128,7 @@ tol = 1e-4;
               y += y0(i) * p;   
           endfor;
           disp("--------Local da Cidade--------")
-          disp(mean(y0));
+          disp(mean(x0));
           disp("--------Poluiçao--------")
           disp(y);
        % ---------------------------------------
