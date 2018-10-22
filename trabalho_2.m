@@ -4,6 +4,8 @@
   A2name = input(" Digite o nome do arquivo da matriz do S2: ");
   b2name = input(" Digite o nome do arquivo do vetor do S2: ");
   
+  tol = input("Digite a presisao desejada: ");
+  
   A = load(Aname);
   b = load(bname);
   
@@ -89,7 +91,7 @@ function beta=sassenfeld(A2)
 %A = [6 0 -1 2 0; 0 8 -4 0 2; 0 2 -8 4 0; -2 0 0 -5 1; 0 1 0 9 14];
 %b = [ 265; 100; 234; -400; 721];
 Niter = 100;
-tol = 1e-4;
+
   beta=sassenfeld(A2);
   if(max(beta)>1) 
     fprintf("Nao vai convergir!\n");
