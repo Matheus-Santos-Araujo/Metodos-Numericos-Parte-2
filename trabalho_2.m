@@ -1,3 +1,4 @@
+  % PEGA E DEFINE VALORES -----------------------------------------
   Aname = input(" Digite o nome do arquivo da matriz do S1: ");
   bname = input(" Digite o nome do arquivo do vetor do S1: ");
   
@@ -5,35 +6,39 @@
   b2name = input(" Digite o nome do arquivo do vetor do S2: ");
   
   tol = input("Digite a presisao desejada: ");
+ 
+  A1 = load(Aname);
+  b1 = load(bname);
   
-  A = load(Aname);
-  b = load(bname);
+  A = load(A2name);
+  b = load(b2name);
   
-  A2 = load(A2name);
-  b2 = load(b2name);
+  Niter = 100;
+ 
+  % --------------------------------------------------------
   
- %A = [6 0 -1 2 0; 0 8 -4 0 2; 0 2 -8 4 0; -2 0 0 -5 1; 0 1 0 9 14];
- %b = [ 265; 100; 234; -400; 721];
+  % DECOMPOSIÇAO LU ----------------------------------------
+  
  %pega o tamanho
-  [numLin numCol] = size(A);
+  [numLin numCol] = size(A1);
   % gera uma matriz identidade
   L = eye(numLin, numLin);
 
   % Calcula matriz L
   for k=1:numLin
-     if(A(k,k) ==0)
+     if(A1(k,k) ==0)
        L(k+1:numLin,k) = 0;
-     elseif(A(k,k)!=0)
-       L(k+1:numLin,k)=A(k+1:numLin,k)/A(k,k);
+     elseif(A1(k,k)!=0)
+       L(k+1:numLin,k)=A1(k+1:numLin,k)/A1(k,k);
      endif
      
       % Calcula matriz U
       for j=k+1:numLin
-        A(j,:)=A(j,:)-(L(j,k)*A(k,:));
+        A1(j,:)=A1(j,:)-(L(j,k)*A1(k,:));
       end
   end
   % iguala U a A
-  U = A;
+  U = A1;
 
   %calcula a conscistencia
   for i=1:numCol
@@ -45,7 +50,7 @@
   endfor
   if(inc==0)
   % Calcula resultado de x
-  y = inv(L)*b;
+  y = inv(L)*b1;
   x = inv(U)*y;
   endif
 
@@ -72,9 +77,11 @@
     disp("\nImpossivel Calcular o X");
   endif
 
-%------------ Gauss Seidel--------------
-
-function beta=sassenfeld(A2)
+  % -------------------------------------------------
+  
+  % VERIFICAÇAO DE SASSENFELD -----------------------
+  
+  function beta=sassenfeld(A2)
   [m n]=size(A2);
   beta=zeros(m,1);
   for i=1:m
@@ -86,17 +93,17 @@ function beta=sassenfeld(A2)
    endfor;
   endfor;
   endfunction
-
-
-%A = [6 0 -1 2 0; 0 8 -4 0 2; 0 2 -8 4 0; -2 0 0 -5 1; 0 1 0 9 14];
-%b = [ 265; 100; 234; -400; 721];
-Niter = 100;
-
-  beta=sassenfeld(A2);
+  
+   beta=sassenfeld(A2);
   if(max(beta)>1) 
     fprintf("Nao vai convergir!\n");
     break;
   endif
+  
+  % -------------------------------------------------
+  
+  % METODO DE GAUSS SEIDEL --------------------------
+  
   n=length(A2);
   D=diag(diag(A2));
   L=D-tril(A2);
@@ -105,13 +112,15 @@ Niter = 100;
   x2=zeros(n,1);
   xout=x2;
   oldx=ones(n,1);
+  
   for i=1:Niter
     if (max(abs(x2-oldx))<tol)
       disp("--------Poluiçao--------")
-      disp(x2)
+      disp(sort(x2))
       disp("")
-      % LAGRANGE --------------------------------
-      % 
+      
+   % METODO DE LAGRANGE ----------------------------
+     
       x0 = x;
       y0 = x2;
        xaux = median(x0);
@@ -134,6 +143,7 @@ Niter = 100;
           disp("--------Poluiçao--------")
           disp(y);
        % ---------------------------------------
+       
       return;
     else
       oldx=x2;
