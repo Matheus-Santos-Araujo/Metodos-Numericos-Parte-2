@@ -6,7 +6,8 @@
   b2name = input(" Digite o nome do arquivo do vetor do S2: ");
   
   tol = input("Digite a presisao desejada: ");
- 
+  disp("")
+  
   A1 = load(Aname);
   b1 = load(bname);
   
@@ -68,15 +69,6 @@
       inc=0;
     endif
   endfor
-
-  if (inc==0)
-    %imprime vetor x
-    disp("--------Pontos Amostrais--------");
-   disp(sort(x));
-  elseif(inc==1)
-    disp("\nImpossivel Calcular o X");
-  endif
-
   % -------------------------------------------------
   
   % VERIFICAÇAO DE SASSENFELD -----------------------
@@ -104,50 +96,81 @@
   
   % METODO DE GAUSS SEIDEL --------------------------
   
+  % Pega o tamanho de A
   n=length(A);
+  % Pega a diagonal de A
   D=diag(diag(A));
+  % Pega o L
   L=D-tril(A);
+  % Pega o U
   U=D-triu(A);
+  % Pega a inversa da diagonal menos L
   invDL=inv(D-L);
+  % Inicia o X2
   x2=zeros(n,1);
+  % Atualiza X2
   xout=x2;
+  % Atualiza oldx
   oldx=ones(n,1);
   
+  % Inicia o laço
   for i=1:Niter
+    % Verifica se convergiu
     if (max(abs(x2-oldx))<tol)
-      disp("--------Poluiçao--------")
-      disp(sort(x2))
-      disp("")
+         % Verifica a conscistencia
+         if (inc==0)
+            disp("--Ponto---- Poluicao ---")
+    % Associa os pontos amostrais ordenados com as poluicoes
+    [sorted, indices] = sort(x);
+    % Imprime o resultado
+    disp([x(indices) x2(indices)]);
+    disp("")
+        % Se n~ao for consistente retorna erro
+        elseif(inc==1)
+    disp("\nImpossivel Calcular os pontos amostrais");
+  endif
       
    % METODO DE LAGRANGE ----------------------------
-     
+      % Pega os pontos amostrais
       x0 = x;
+      % Pega as poluicoes
       y0 = x2;
-       xaux = median(x0);
+      % Pega o ponto da cidade
+      xaux = median(x0);
+      
           % Grau n do polinomio
-          n = size(x0, 1); 
+          n = size(x0, 1);
+          % Inicia y 
           y = 0;
 
+          % Inicia o primeiro laço com grau do polinomio
           for i=1:n
+              % Inicializa p
               p = 1;
+              % Inicia o segundo laço com grau do polinomio
               for j=1:n
+                  % Se j e i percorridos forem iguais continua
                   if j == i   
                       continue;
                   endif;
+                  % Executa formula de Lagrange
                   p *= (xaux-x0(j)) / (x0(i)-x0(j));
               endfor;
+              % Atualiza y
               y += y0(i) * p;   
           endfor;
-          disp("--------Local da Cidade--------")
-          disp(median(x0));
-          disp("--------Poluiçao--------")
-          disp(y);
+          % Imprime o resultado 
+          disp("---Cidade--- Poluicao ----")
+         disp([ median(x0)  y])
        % ---------------------------------------
        
       return;
     else
+      % Atualiza oldx
       oldx=x2;
+      % Executa formula de Lagrange
       x2=invDL*U*x2+invDL*b;
+      % Atualiza xout
       xout=[xout x2];
     endif
   endfor
