@@ -1,4 +1,4 @@
-  % PEGA E DEFINE VALORES -----------------------------------------
+% PEGA E DEFINE VALORES -----------------------------------------
   Aname = input(" Digite o nome do arquivo da matriz do S1: ");
   bname = input(" Digite o nome do arquivo do vetor do S1: ");
   
@@ -81,20 +81,20 @@
   
   % VERIFICAÇAO DE SASSENFELD -----------------------
   
-  function beta=sassenfeld(A2)
-  [m n]=size(A2);
+  function beta=sassenfeld(A)
+  [m n]=size(A);
   beta=zeros(m,1);
   for i=1:m
    for j=1:i-1
-     beta(i)=beta(i)+abs(A2(i,j))/abs(A2(i,i))*beta(j);
+     beta(i)=beta(i)+abs(A(i,j))/abs(A(i,i))*beta(j);
    endfor;
    for j=i+1:n
-    beta(i)=beta(i)+abs(A2(i,j))/abs(A2(i,i));
+    beta(i)=beta(i)+abs(A(i,j))/abs(A(i,i));
    endfor;
   endfor;
   endfunction
   
-   beta=sassenfeld(A2);
+   beta=sassenfeld(A);
   if(max(beta)>1) 
     fprintf("Nao vai convergir!\n");
     break;
@@ -104,10 +104,10 @@
   
   % METODO DE GAUSS SEIDEL --------------------------
   
-  n=length(A2);
-  D=diag(diag(A2));
-  L=D-tril(A2);
-  U=D-triu(A2);
+  n=length(A);
+  D=diag(diag(A));
+  L=D-tril(A);
+  U=D-triu(A);
   invDL=inv(D-L);
   x2=zeros(n,1);
   xout=x2;
