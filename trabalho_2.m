@@ -1,3 +1,6 @@
+% SUPRIME AVISOS -----------------------------------------
+warning("off","all"); 
+
 % PEGA E DEFINE VALORES -----------------------------------------
   Aname = input(" Digite o nome do arquivo da matriz do S1: ");
   bname = input(" Digite o nome do arquivo do vetor do S1: ");
@@ -116,7 +119,7 @@
   % Inicia o laço
   for i=1:Niter
     % Verifica se convergiu
-    if (max(abs(x2-oldx))<tol)
+    if (max(abs(x2-oldx))<tol || max(abs(x2-oldx))/max(abs(x2))<tol)
          % Verifica a conscistencia
          if (inc==0)
             disp("--Ponto---- Poluicao ---")
