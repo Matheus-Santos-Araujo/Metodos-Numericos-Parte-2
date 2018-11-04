@@ -91,7 +91,7 @@ warning("off","all");
   
    beta=sassenfeld(A);
   if(max(beta)>1) 
-    fprintf("Nao vai convergir!\n");
+    fprintf("O sistema 2 nao vai convergir, sassenfeld negado!\n");
     break;
   endif
   
