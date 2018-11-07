@@ -8,7 +8,6 @@
   A2name = input(" Digite o nome do arquivo da matriz do S2: ");
   b2name = input(" Digite o nome do arquivo do vetor do S2: ");
   
-  tol = input("Digite a presisao desejada: ");
   tol = input("Digite a precisao desejada: ");
   disp("")
   
