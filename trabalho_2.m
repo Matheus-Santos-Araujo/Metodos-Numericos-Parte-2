@@ -8,7 +8,7 @@ warning("off","all");
   A2name = input(" Digite o nome do arquivo da matriz do S2: ");
   b2name = input(" Digite o nome do arquivo do vetor do S2: ");
   
-  tol = input("Digite a precisao desejada: ");
+  tol = input("Digite a presisao desejada: ");
   disp("")
   
   A1 = load(Aname);
@@ -91,7 +91,7 @@ warning("off","all");
   
    beta=sassenfeld(A);
   if(max(beta)>1) 
-    fprintf("O sistema 2 nao vai convergir, sassenfeld negado!\n");
+    fprintf("Nao vai convergir!\n");
     break;
   endif
   
@@ -119,7 +119,8 @@ warning("off","all");
   % Inicia o laço
   for i=1:Niter
     % Verifica se convergiu
-    if (max(abs(x2-oldx))<tol || max(abs(x2-oldx))/max(abs(x2))<tol)
+    verify = max(abs(x2-oldx))/max(abs(x2));
+    if (max(abs(x2-oldx))<tol || verify <tol)
          % Verifica a conscistencia
          if (inc==0)
             disp("--Ponto---- Poluicao ---")
@@ -139,8 +140,8 @@ warning("off","all");
       % Pega as poluicoes
       y0 = x2;
       % Pega o ponto da cidade
-      xaux = median(x0);
-      
+      dif = min(x0)+max(x0);
+      xaux = dif/2;
           % Grau n do polinomio
           n = size(x0, 1);
           % Inicia y 
@@ -164,7 +165,7 @@ warning("off","all");
           endfor;
           % Imprime o resultado 
           disp("---Cidade--- Poluicao ----")
-         disp([ median(x0)  y])
+         disp([  dif/2  y])
        % ---------------------------------------
        
       return;
