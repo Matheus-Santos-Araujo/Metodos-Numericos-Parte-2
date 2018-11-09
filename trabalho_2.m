@@ -1,4 +1,6 @@
- % SUPRIME AVISOS -----------------------------------------
+% Tema 2 - Matheus Santos Araujo, Xenia Beatriz e Edson Rodrigo 
+
+% SUPRIME AVISOS -----------------------------------------
  warning("off","all"); 
  
  % PEGA E DEFINE VALORES -----------------------------------------
